@@ -34,7 +34,8 @@ public class ImageResizer extends CordovaPlugin {
     private int quality;
     private int width;
     private int height;
-
+    private boolean isPNG = false;
+    
     private boolean base64 = false;
     private boolean fit = false;
     private boolean fixRotation = false;
@@ -66,7 +67,9 @@ public class ImageResizer extends CordovaPlugin {
                 quality = jsonObject.optInt("quality", 85);
                 width = jsonObject.getInt("width");
                 height = jsonObject.getInt("height");
-
+                
+                isPNG = jsonObject.optBoolean("isPNG", false);
+                
                 base64 = jsonObject.optBoolean("base64", false);
                 fit = jsonObject.optBoolean("fit", false);
                 fixRotation = jsonObject.optBoolean("fixRotation",false);
@@ -116,7 +119,12 @@ public class ImageResizer extends CordovaPlugin {
                         return false;
                     }
                 } else {
-                    response =  "data:image/jpeg;base64," + this.getStringImage(bitmap, quality);
+                    if(!isPNG) {
+                         response =  "data:image/jpeg;base64," + this.getStringImage(bitmap, quality);
+                    } else {
+                        response =  "data:image/png;base64," + this.getStringImage(bitmap, quality);
+                    }
+                   
                 }
 
                 bitmap = null;
@@ -257,7 +265,13 @@ public class ImageResizer extends CordovaPlugin {
             if (file.exists()) file.delete();
             try {
                 FileOutputStream out = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, out);
+                bitmap.setHasAlpha(true);
+                if (!isPNG){
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, out);
+                } else {
+                    bitmap.setHasAlpha(true);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, quality, out);
+                }
                 out.flush();
                 out.close();
             } catch (Exception e) {
