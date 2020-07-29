@@ -64,23 +64,12 @@ public class ImageResizer extends CordovaPlugin {
                 fileName = null;
                 if (jsonObject.has("fileName")) {
                     fileName = jsonObject.getString("fileName");
-                    if (fileName) {
-                        String extension = "";
-                        int i = fileName.lastIndexOf('.');
-                        if (i > 0) {
-                            extension = fileName.substring(i+1);
-                            extension = extension.toLowerCase();
-                        }
-                        if(extension == "png"){
-                            isPNG = true;
-                        }
-                    }
                 }
                 quality = jsonObject.optInt("quality", 85);
                 width = jsonObject.getInt("width");
                 height = jsonObject.getInt("height");
                 
-               // isPNG = jsonObject.optBoolean("isPNG", false);
+                isPNG = jsonObject.optBoolean("isPNG", false);
                 
                 base64 = jsonObject.optBoolean("base64", false);
                 fit = jsonObject.optBoolean("fit", false);
