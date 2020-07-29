@@ -64,11 +64,12 @@ public class ImageResizer extends CordovaPlugin {
                     int i = fileName.lastIndexOf('.');
                     if (i > 0) {
                         extension = fileName.substring(i+1);
+                        extension = extension.toLowerCase();
                     }
-                    if(extension.toLowerCase() == 'png'){
+                    if(extension == "png"){
                         isPNG = true;
                     } else {
-                    isPNG = false;
+                        isPNG = false;
                     }
                 }
                 fileName = null;
