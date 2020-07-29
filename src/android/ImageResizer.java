@@ -145,7 +145,13 @@ public class ImageResizer extends CordovaPlugin {
     public String getStringImage(Bitmap bmp, int quality) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        if (!isPNG) {
+            bmp.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        } else {
+            bmp.setHasAlpha(true);
+            bmp.compress(Bitmap.CompressFormat.PNG, quality, baos);
+        }
+        
         byte[] imageBytes = baos.toByteArray();
 
         String encodedImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
