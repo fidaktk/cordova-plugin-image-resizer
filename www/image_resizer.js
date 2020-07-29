@@ -9,7 +9,9 @@ ImageResizer.prototype.resize = function (options, success, fail) {
 
     options.fileName = options.fileName || defaultOptions.fileName;
     options.quality = options.quality || defaultOptions.quality;
-
+    
+    options.fileName.split('.').pop().toLowerCase() === 'png' ?  options.isPNG = true : options.isPNG = false;
+    
     cordova.exec(function (uri) {
         success(uri);
     }, function (e) {
