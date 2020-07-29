@@ -60,21 +60,21 @@ public class ImageResizer extends CordovaPlugin {
                 folderName = null;
                 if (jsonObject.has("folderName")) {
                     folderName = jsonObject.getString("folderName");
-                    String extension = "";
-                    int i = fileName.lastIndexOf('.');
-                    if (i > 0) {
-                        extension = fileName.substring(i+1);
-                        extension = extension.toLowerCase();
-                    }
-                    if(extension == "png"){
-                        isPNG = true;
-                    } else {
-                        isPNG = false;
-                    }
                 }
                 fileName = null;
                 if (jsonObject.has("fileName")) {
                     fileName = jsonObject.getString("fileName");
+                    if (fileName) {
+                        String extension = "";
+                        int i = fileName.lastIndexOf('.');
+                        if (i > 0) {
+                            extension = fileName.substring(i+1);
+                            extension = extension.toLowerCase();
+                        }
+                        if(extension == "png"){
+                            isPNG = true;
+                        }
+                    }
                 }
                 quality = jsonObject.optInt("quality", 85);
                 width = jsonObject.getInt("width");
